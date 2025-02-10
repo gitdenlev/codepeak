@@ -1,75 +1,48 @@
-# Nuxt Minimal Starter
+# CodePeak
+CodePeak is a web application that leverages artificial intelligence for image analysis. Users can upload photos to the platform and receive detailed AI-powered analysis of the content within their images. The application provides fast and accurate recognition of objects, scenes, and other elements present in the uploaded photos.
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Key Features
+- Real-time image analysis using AI
+- Support for multiple image formats (JPG, PNG, WebP, HEIC)
+- User-friendly interface for image upload
+- Detailed analysis results
+- Scan history storage
+- Secure user authentication
 
-## Setup
+## Technologies
 
-Make sure to install dependencies:
+### Full-stack Framework
+- Nuxt.js - Vue.js framework with SSR capabilities
+  - Server-side rendering
+  - Built-in routing
+  - State management
+  - API handling
+  - File system based routing
+  - Built-in authentication module
 
-```bash
-# npm
-npm install
+### Database
+- MongoDB - For storing user data and analysis results
 
-# pnpm
-pnpm install
+## Benefits
+- Quick and accurate image analysis
+- Easy-to-use interface
+- Secure data handling
+- Cross-platform compatibility
+- Real-time processing
+- Reliable storage of results
 
-# yarn
-yarn install
+## Project Value
+The application is useful for:
+- Content creators analyzing visual materials
+- Businesses processing image data
+- Researchers working with visual datasets
+- Users wanting to understand image content
+- Digital archivists organizing visual collections
 
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Future Development
+Planned improvements include:
+- Enhanced AI model accuracy
+- Additional image format support
+- Advanced analysis features
+- Performance optimizations
+- Mobile application
