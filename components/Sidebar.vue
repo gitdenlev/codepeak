@@ -114,16 +114,56 @@
       }"
     >
       <h2 class="text-2xl mb-4 flex items-center gap-3">
-        <Icon name="mingcute:settings-3-fill" size="28" /> Settings
+        <Icon name="mingcute:settings-7-line" size="28" /> Settings
       </h2>
 
       <!-- Container for unauthenticated user -->
-      <div class="flex items-center justify-between" v-if="!user">
-        <div class="flex items-center gap-2">
-          <Icon name="ix:light-dark" size="22" />
-          <span>Theme</span>
+      <div
+        class="flex flex-col gap-4 p-6 font-kanit"
+        v-if="!user"
+      >
+        <!-- Заголовок -->
+        <h2 class="text-xl text-gray-900 dark:text-gray-100">
+          Attention
+        </h2>
+
+        <!-- Повідомлення -->
+        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+          To save changes, please log in or register.
+        </p>
+
+        <!-- Кнопки -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <NuxtLink
+            to="/login"
+            class="flex-1 text-center py-2 px-4 rounded-lg border text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out flex items-center justify-center"
+          >
+            <Icon name="mdi:login" size="16" class="mr-2" />
+            Log In
+          </NuxtLink>
+          <NuxtLink
+            to="/register"
+            class="flex-1 text-center py-2 px-4 rounded-lg border dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out flex items-center justify-center"
+          >
+            <Icon name="mdi:account-plus" size="16" class="mr-2" />
+            Sign Up
+          </NuxtLink>
         </div>
-        <ThemeDropdown />
+
+        <!-- Тема -->
+        <div
+          class="flex items-center justify-between pt-4"
+        >
+          <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+            <Icon
+              name="ix:light-dark"
+              size="20"
+              class="text-gray-500 dark:text-gray-400"
+            />
+            <span class="text-sm">Theme</span>
+          </div>
+          <ThemeDropdown />
+        </div>
       </div>
 
       <!-- Container for authenticated user -->
@@ -395,6 +435,12 @@ const handleDeleteAccount = async () => {
 
 const handleLogout = async () => {
   try {
+    const userCookie = useCookie("user");
+    const tokenCookie = useCookie("token");
+
+    userCookie.value = null;
+    tokenCookie.value = null;
+
     await logout();
     user.value = null;
     navigateTo("/login");

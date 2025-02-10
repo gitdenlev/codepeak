@@ -113,12 +113,18 @@ const handleLogin = async () => {
       password: password.value,
     });
 
-    console.log("Login response:", userResponse); // Логування відповіді
-
     if (userResponse && userResponse.success) {
-      // Зберігаємо дані користувача в кукі
-      const cookie = useCookie('user', { maxAge: 60 * 60 * 24 * 7 }); // Кукі на 1 тиждень
-      cookie.value = JSON.stringify(userResponse.user);
+      const tokenCookie = useCookie("token", {
+        maxAge: 60 * 60 * 24 * 7,
+        path: "/",
+      });
+      tokenCookie.value = userResponse.token;
+
+      const userCookie = useCookie("user", {
+        maxAge: 60 * 60 * 24 * 7,
+        path: "/",
+      });
+      userCookie.value = JSON.stringify(userResponse.user);
 
       await router.push("/");
     } else {
