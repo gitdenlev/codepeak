@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-vue": "^0.5.6",
     "@nuxt/icon": "1.10.3",
     "@nuxt/image": "^1.9.0",
     "@nuxt/nitro": "^0.10.0",
@@ -24,6 +25,7 @@
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
+    "notiflix": "^3.2.8",
     "nuxt": "^3.15.2",
     "nuxt-mongoose": "1.0.6",
     "openai": "^4.79.1",

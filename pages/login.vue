@@ -17,7 +17,7 @@
               type="email"
               placeholder="Email address"
               required
-              class="overflow-x-scroll pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
+              class="font-sans placeholder:font-kanit overflow-x-scroll pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
             />
             <Icon
               name="ic:twotone-alternate-email"
@@ -33,7 +33,7 @@
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="Password"
               required
-              class="overflow-x-scroll pl-10 pr-10 py-2 rounded-md border-none outline-none border-gray-300 w-full"
+              class="font-sans placeholder:font-kanit overflow-x-scroll pl-10 pr-10 py-2 rounded-md border-none outline-none border-gray-300 w-full"
             />
             <Icon
               name="mdi:password"
@@ -41,6 +41,7 @@
               class="absolute left-3 top-1/2 -translate-y-1/2"
             />
 
+            <!-- Icon to show/hide password -->
             <Icon
               v-if="password.length > 0"
               @click="handleShowPassword"

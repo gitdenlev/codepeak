@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
       "https://api-inference.huggingface.co/models/microsoft/resnet-50",
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`, // Використовуємо apiKey
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         method: "POST",
@@ -29,9 +29,14 @@ export default defineEventHandler(async (event) => {
     }
 
     const result = await response.json();
-    return { response: result };
+    console.log("Hugging Face API response:", result);
+
+    // Перевіряємо, чи `result` є масивом, якщо ні — робимо його масивом
+    const formattedResult = Array.isArray(result) ? result : [result];
+
+    return { response: formattedResult };
   } catch (error) {
     console.error("Error querying model:", error);
-    return { response: "Sorry, something went wrong. Please try again." };
+    return { response: [] }; // Повертаємо порожній масив, щоб уникнути помилок у фронтенді
   }
 });

@@ -118,14 +118,9 @@
       </h2>
 
       <!-- Container for unauthenticated user -->
-      <div
-        class="flex flex-col gap-4 p-6 font-kanit"
-        v-if="!user"
-      >
+      <div class="flex flex-col gap-4 p-6 font-kanit" v-if="!user">
         <!-- Заголовок -->
-        <h2 class="text-xl text-gray-900 dark:text-gray-100">
-          Attention
-        </h2>
+        <h2 class="text-xl text-gray-900 dark:text-gray-100">Attention</h2>
 
         <!-- Повідомлення -->
         <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
@@ -151,9 +146,7 @@
         </div>
 
         <!-- Тема -->
-        <div
-          class="flex items-center justify-between pt-4"
-        >
+        <div class="flex items-center justify-between pt-4">
           <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300">
             <Icon
               name="ix:light-dark"
