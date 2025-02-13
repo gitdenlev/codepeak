@@ -16,7 +16,7 @@
             type="text"
             placeholder="Username"
             required
-            class="pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
+            class="font-sans placeholder:font-kanit pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
           />
           <Icon
             name="mdi:user"
@@ -32,7 +32,7 @@
             type="email"
             placeholder="Email address"
             required
-            class="pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
+            class="font-sans placeholder:font-kanit pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
           />
           <Icon
             name="ic:twotone-alternate-email"
@@ -48,7 +48,7 @@
             v-model="userPassword"
             placeholder="Password"
             required
-            class="pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
+            class="font-sans placeholder:font-kanit pl-10 pr-4 py-2 rounded-md border-none outline-none border-gray-300 w-full"
           />
           <Icon
             name="mdi:password"
@@ -90,6 +90,7 @@
 </template>
 
 <script setup>
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 useHead({
   title: "CodePeak - Create Account",
   link: [
@@ -161,7 +162,16 @@ const createAccount = async () => {
       isCreated.value = "Account created successfully!";
       // Wait a bit to show success message
       setTimeout(async () => {
-        await navigateTo("/");
+        Notify.success("User created successfully", {
+          position: "right-bottom",
+          cssAnimationStyle: "zoom", // Example of adding a cool style
+          cssAnimationDuration: 600,
+          clickToClose: true,
+          backgroundColor: "#4CAF50", // Custom background color
+          fontSize: "16px", // Custom font size
+          useIcon: true, // Show icon
+        });
+        await navigateTo("/login");
       }, 1500);
     }
   } catch (error) {

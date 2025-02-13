@@ -72,7 +72,10 @@
 
           <!-- Лоадер -->
           <Transition name="fade" mode="out-in">
-            <div class="mt-10" v-if="isLoading">
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              v-if="isLoading"
+            >
               <Loader />
             </div>
           </Transition>
@@ -88,7 +91,7 @@
                 <!-- Іконка Reset -->
                 <button
                   @click="resetScan"
-                  class="flex items-center justify-center absolute top-3 right-2 p-2 w-10 h-10 bg-gray-800/50 rounded-full hover:bg-gray-700/70 transition-all duration-300"
+                  class="flex items-center justify-center fixed top-3 right-2 p-2 w-10 h-10 bg-gray-800/50 rounded-full hover:bg-gray-700/70 transition-all duration-300"
                   title="Reset"
                 >
                   <Icon
@@ -99,12 +102,29 @@
                 </button>
 
                 <!-- Завантажене зображення -->
-                <NuxtImg
-                  v-if="uploadedImage"
-                  :src="uploadedImage"
-                  alt="Uploaded image"
-                  class="mb-4 response-image mx-auto"
-                />
+                <div
+                  class="relative"
+                  @mouseenter="isHovering = true"
+                  @mouseleave="isHovering = false"
+                >
+                  <NuxtImg
+                    v-if="uploadedImage"
+                    :src="uploadedImage"
+                    alt="Uploaded image"
+                    class="mb-4 response-image mx-auto"
+                  />
+                  <div
+                    v-if="isHovering"
+                    class="absolute inset-0 flex items-center justify-center bg-black/40"
+                  >
+                    <Icon
+                      @click="saveScan"
+                      name="game-icons:mountaintop"
+                      size="40"
+                      class="cursor-pointer text-white transition-all duration-300"
+                    />
+                  </div>
+                </div>
               </div>
 
               <!-- Результати класифікації -->
@@ -113,6 +133,10 @@
                   v-for="(item, idx) in filteredClassificationResult"
                   :key="idx"
                   class="mt-2"
+                  v-if="
+                    filteredClassificationResult &&
+                    filteredClassificationResult.length
+                  "
                 >
                   <div class="flex items-center justify-between">
                     <span :class="showBestResultOnly ? 'text-xl' : ''">{{
@@ -185,6 +209,7 @@ useHead({
   ],
 });
 
+const isHovering = ref(false);
 const isDragging = ref(false);
 const uploadedImage = ref(null);
 const isLoading = ref(false);
@@ -271,9 +296,11 @@ const saveScan = async () => {
       scannedAt: new Date().toISOString(),
       tag: showBestResultOnly.value ? "best" : "extended",
       classificationResults: classificationResult.value,
-      processingTime: 123, // Приклад часу обробки
-      resolution: { width: 1920, height: 1080 }, // Приклад роздільної здатності
+      processingTime: 123,
+      resolution: { width: 1920, height: 1080 },
     };
+
+    console.log("Scan data to save:", scanData); // Додано логування
 
     await $fetch("/api/saveScan", {
       method: "POST",
