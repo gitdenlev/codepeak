@@ -88,41 +88,68 @@
             >
               <!-- Контейнер з зображенням та іконкою Reset -->
               <div class="max-h-[60vh] overflow-hidden relative">
-                <!-- Іконка Reset -->
-                <button
-                  @click="resetScan"
-                  class="flex items-center justify-center fixed top-3 right-2 p-2 w-10 h-10 bg-gray-800/50 rounded-full hover:bg-gray-700/70 transition-all duration-300"
-                  title="Reset"
-                >
-                  <Icon
-                    name="material-symbols:restart-alt"
-                    size="20"
-                    class="text-white"
-                  />
-                </button>
-
                 <!-- Завантажене зображення -->
-                <div
-                  class="relative"
-                  @mouseenter="isHovering = true"
-                  @mouseleave="isHovering = false"
-                >
+                <div class="relative">
+                  <!-- Зображення -->
                   <NuxtImg
                     v-if="uploadedImage"
                     :src="uploadedImage"
                     alt="Uploaded image"
-                    class="mb-4 response-image mx-auto"
+                    class="mb-4 response-image mx-auto rounded-lg"
                   />
+
+                  <!-- Меню кнопка та дропдаун -->
                   <div
-                    v-if="isHovering"
-                    class="absolute inset-0 flex items-center justify-center bg-black/40"
+                    v-if="classificationResult"
+                    class="absolute bottom-6 right-2 flex flex-col items-end"
                   >
-                    <Icon
-                      @click="saveScan"
-                      name="game-icons:mountaintop"
-                      size="40"
-                      class="cursor-pointer text-white transition-all duration-300"
-                    />
+                    <!-- Кнопка меню -->
+                    <button
+                      @click="isMenuOpen = !isMenuOpen"
+                      class="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all duration-300"
+                    >
+                      <Icon
+                        name="iconamoon:menu-kebab-horizontal-bold"
+                        size="20"
+                        class="text-white"
+                      />
+                    </button>
+
+                    <!-- Дропдаун меню -->
+                    <Transition
+                      enter-active-class="transition duration-200 ease-out"
+                      enter-from-class="transform scale-95 opacity-0"
+                      enter-to-class="transform scale-100 opacity-100"
+                      leave-active-class="transition duration-150 ease-in"
+                      leave-from-class="transform scale-100 opacity-100"
+                      leave-to-class="transform scale-95 opacity-0"
+                    >
+                      <div
+                        v-if="isMenuOpen"
+                        class="mt-2 py-1 w-28 rounded-lg shadow-lg bg-gray-800/90 backdrop-blur-sm"
+                      >
+                        <!-- Save кнопка -->
+                        <button
+                          @click="handleSave"
+                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
+                        >
+                          <Icon
+                            name="icon-park-outline:download-one"
+                            size="16"
+                          />
+                          Save
+                        </button>
+
+                        <!-- Reset кнопка -->
+                        <button
+                          @click="handleReset"
+                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
+                        >
+                          <Icon name="material-symbols:restart-alt" size="16" />
+                          Reset
+                        </button>
+                      </div>
+                    </Transition>
                   </div>
                 </div>
               </div>
@@ -163,14 +190,6 @@
 
               <!-- Кнопки Save та Reset (нижня частина) -->
               <div class="flex items-center gap-4">
-                <button
-                  v-if="!isScanSaved && user"
-                  @click="saveScan"
-                  class="mt-4 flex items-center justify-center gap-2 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all"
-                >
-                  <Icon name="icons8:download-2" size="20" />
-                  <span>Save</span>
-                </button>
                 <p v-if="isScanSaved" class="mt-4 text-green-500">
                   Scan saved successfully!
                 </p>
@@ -316,6 +335,28 @@ const saveScan = async () => {
   }
 };
 
+const isMenuOpen = ref(false);
+
+// Закривання меню при кліку поза ним
+onMounted(() => {
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target.closest('.menu-container')) {
+      isMenuOpen.value = false;
+    }
+  });
+});
+
+const handleSave = () => {
+  saveScan();
+  isMenuOpen.value = false;
+};
+
+const handleReset = () => {
+  resetScan();
+  isMenuOpen.value = false;
+};
+
 // Функція для скидання стану сканування
 const resetScan = () => {
   uploadedImage.value = null;
@@ -400,5 +441,9 @@ img {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.menu-container {
+  z-index: 50;
 }
 </style>
