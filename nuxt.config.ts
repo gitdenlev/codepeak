@@ -2,9 +2,6 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: false },
-  generate: {
-    routes: ["/404"],
-  },
 
   runtimeConfig: {
     mongodbUri: process.env.MONGO_URI,
