@@ -95,6 +95,7 @@
                     v-if="uploadedImage"
                     :src="uploadedImage"
                     alt="Uploaded image"
+<<<<<<< HEAD
                     :width="300"
                     :height="200"
                     sizes="xs:100vw sm:80vw md:60vw lg:50vw xl:40vw"
@@ -124,6 +125,63 @@
                       <Icon name="material-symbols:restart-alt" size="16" />
                       <span class="text-sm">Reset</span>
                     </button>
+=======
+                    class="mb-4 response-image mx-auto rounded-lg"
+                  />
+
+                  <!-- Меню кнопка та дропдаун -->
+                  <div
+                    v-if="classificationResult"
+                    class="absolute bottom-6 right-2 flex flex-col items-end"
+                  >
+                    <!-- Кнопка меню -->
+                    <button
+                      @click="isMenuOpen = !isMenuOpen"
+                      class="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all duration-300"
+                    >
+                      <Icon
+                        name="iconamoon:menu-kebab-horizontal-bold"
+                        size="20"
+                        class="text-white"
+                      />
+                    </button>
+
+                    <!-- Дропдаун меню -->
+                    <Transition
+                      enter-active-class="transition duration-200 ease-out"
+                      enter-from-class="transform scale-95 opacity-0"
+                      enter-to-class="transform scale-100 opacity-100"
+                      leave-active-class="transition duration-150 ease-in"
+                      leave-from-class="transform scale-100 opacity-100"
+                      leave-to-class="transform scale-95 opacity-0"
+                    >
+                      <div
+                        v-if="isMenuOpen"
+                        class="mt-2 py-1 w-28 rounded-lg shadow-lg bg-gray-800/90 backdrop-blur-sm"
+                      >
+                        <!-- Save кнопка -->
+                        <button
+                          @click="handleSave"
+                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
+                        >
+                          <Icon
+                            name="icon-park-outline:download-one"
+                            size="16"
+                          />
+                          Save
+                        </button>
+
+                        <!-- Reset кнопка -->
+                        <button
+                          @click="handleReset"
+                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
+                        >
+                          <Icon name="material-symbols:restart-alt" size="16" />
+                          Reset
+                        </button>
+                      </div>
+                    </Transition>
+>>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
                   </div>
                 </div>
               </div>
@@ -306,7 +364,11 @@ const saveScan = async () => {
       resolution: { width: 1920, height: 1080 },
     };
 
+<<<<<<< HEAD
     console.log("Scan data to save:", scanData);
+=======
+    console.log("Scan data to save:", scanData); // Додано логування
+>>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
 
     await $fetch("/api/saveScan", {
       method: "POST",
@@ -327,12 +389,34 @@ const saveScan = async () => {
   }
 };
 
+<<<<<<< HEAD
 const handleSave = () => {
   saveScan();
+=======
+const isMenuOpen = ref(false);
+
+// Закривання меню при кліку поза ним
+onMounted(() => {
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target.closest('.menu-container')) {
+      isMenuOpen.value = false;
+    }
+  });
+});
+
+const handleSave = () => {
+  saveScan();
+  isMenuOpen.value = false;
+>>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
 };
 
 const handleReset = () => {
   resetScan();
+<<<<<<< HEAD
+=======
+  isMenuOpen.value = false;
+>>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
 };
 
 // Функція для скидання стану сканування
@@ -421,5 +505,9 @@ img {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.menu-container {
+  z-index: 50;
 }
 </style>
