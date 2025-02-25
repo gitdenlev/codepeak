@@ -3,9 +3,7 @@
     <div class="error-code">
       {{ error.statusCode }}
     </div>
-
     <h2 class="message">{{ error.message }}</h2>
-
     <div class="cta-container">
       <NuxtLink to="/" class="cta-button">
         <span class="cta-text">Return to safety</span>
@@ -14,11 +12,9 @@
     </div>
   </div>
 </template>
-
 <script setup>
 defineProps(["error"]);
 </script>
-
 <style scoped>
 .error-container {
   position: fixed;
@@ -32,7 +28,6 @@ defineProps(["error"]);
   overflow: hidden;
   z-index: 9999;
 }
-
 .error-code {
   font-size: 8rem;
   font-weight: 900;
@@ -42,7 +37,6 @@ defineProps(["error"]);
   margin-bottom: 2rem;
   position: relative;
 }
-
 .message {
   font-size: clamp(1rem, 4vw, 1.5rem);
   font-weight: 300;
@@ -51,11 +45,9 @@ defineProps(["error"]);
   letter-spacing: 2px;
   opacity: 0.8;
 }
-
 .cta-container {
   margin-top: 1rem;
 }
-
 .cta-button {
   position: relative;
   display: flex;
@@ -71,7 +63,6 @@ defineProps(["error"]);
   overflow: hidden;
   transition: all 0.3s ease;
 }
-
 .cta-button::before {
   content: "";
   position: absolute;
@@ -84,38 +75,31 @@ defineProps(["error"]);
   transition: opacity 0.3s ease;
   z-index: -1;
 }
-
 .cta-button:hover {
   border-color: transparent;
   color: rgb(17, 24, 39);
 }
-
 .cta-button:hover::before {
   opacity: 1;
 }
-
 .cta-text {
   position: relative;
   z-index: 1;
 }
-
 .cta-icon {
   margin-left: 0.5rem;
   position: relative;
   z-index: 1;
   transition: transform 0.3s ease;
 }
-
 .cta-button:hover .cta-icon {
   transform: translateX(4px);
 }
-
 @media (max-width: 768px) {
   .error-code {
     font-size: 5rem;
   }
 }
-
 @media (max-width: 480px) {
   .error-code {
     font-size: 3.5rem;

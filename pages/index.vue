@@ -86,7 +86,7 @@
               v-if="classificationResult"
               class="mx-auto mt-6 w-full md:w-[410px] xl:w-[700px] fade-in relative"
             >
-              <!-- Контейнер з зображенням та іконкою Reset -->
+              <!-- Контейнер з зображенням та кнопками -->
               <div class="max-h-[60vh] overflow-hidden relative">
                 <!-- Завантажене зображення -->
                 <div class="relative">
@@ -95,61 +95,35 @@
                     v-if="uploadedImage"
                     :src="uploadedImage"
                     alt="Uploaded image"
-                    class="mb-4 response-image mx-auto rounded-lg"
+                    :width="300"
+                    :height="200"
+                    sizes="xs:100vw sm:80vw md:60vw lg:50vw xl:40vw"
+                    class="responsive-img"
                   />
 
-                  <!-- Меню кнопка та дропдаун -->
+                  <!-- Кнопки управління (нові, завжди видимі) -->
                   <div
                     v-if="classificationResult"
-                    class="absolute bottom-6 right-2 flex flex-col items-end"
+                    class="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-row items-center gap-2"
                   >
-                    <!-- Кнопка меню -->
+                    <!-- Save кнопка (тільки для авторизованих) -->
                     <button
-                      @click="isMenuOpen = !isMenuOpen"
-                      class="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all duration-300"
+                      v-if="user"
+                      @click="handleSave"
+                      class="px-3 py-2 rounded-lg bg-blue-600 opacity-90 hover:bg-blue-700 text-white flex items-center gap-2 transition-all duration-300"
                     >
-                      <Icon
-                        name="iconamoon:menu-kebab-horizontal-bold"
-                        size="20"
-                        class="text-white"
-                      />
+                      <Icon name="icon-park-outline:download-one" size="16" />
+                      <span class="text-sm">Save</span>
                     </button>
 
-                    <!-- Дропдаун меню -->
-                    <Transition
-                      enter-active-class="transition duration-200 ease-out"
-                      enter-from-class="transform scale-95 opacity-0"
-                      enter-to-class="transform scale-100 opacity-100"
-                      leave-active-class="transition duration-150 ease-in"
-                      leave-from-class="transform scale-100 opacity-100"
-                      leave-to-class="transform scale-95 opacity-0"
+                    <!-- Reset кнопка -->
+                    <button
+                      @click="handleReset"
+                      class="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white flex items-center gap-2 transition-all duration-300"
                     >
-                      <div
-                        v-if="isMenuOpen"
-                        class="mt-2 py-1 w-28 rounded-lg shadow-lg bg-gray-800/90 backdrop-blur-sm"
-                      >
-                        <!-- Save кнопка -->
-                        <button
-                          @click="handleSave"
-                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
-                        >
-                          <Icon
-                            name="icon-park-outline:download-one"
-                            size="16"
-                          />
-                          Save
-                        </button>
-
-                        <!-- Reset кнопка -->
-                        <button
-                          @click="handleReset"
-                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
-                        >
-                          <Icon name="material-symbols:restart-alt" size="16" />
-                          Reset
-                        </button>
-                      </div>
-                    </Transition>
+                      <Icon name="material-symbols:restart-alt" size="16" />
+                      <span class="text-sm">Reset</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -166,14 +140,22 @@
                   "
                 >
                   <div class="flex items-center justify-between">
-                    <span :class="showBestResultOnly ? 'text-xl' : ''">{{
-                      item.label
-                        .split(" ")
-                        .map(
-                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                        )
-                        .join(" ")
-                    }}</span>
+                    <span
+                      :class="
+                        showBestResultOnly
+                          ? 'text-xl flex justify-center w-full'
+                          : ''
+                      "
+                      >{{
+                        item.label
+                          .split(" ")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ")
+                      }}</span
+                    >
                   </div>
                   <!-- Прогрес-бар -->
                   <div
@@ -188,7 +170,7 @@
                 </li>
               </ul>
 
-              <!-- Кнопки Save та Reset (нижня частина) -->
+              <!-- Повідомлення про успішне збереження -->
               <div class="flex items-center gap-4">
                 <p v-if="isScanSaved" class="mt-4 text-green-500">
                   Scan saved successfully!
@@ -242,22 +224,27 @@ const getFileInfo = (file) => {
   return {
     name: file.name,
     size: `${sizeInMB} MB`,
+    type: file.type,
   };
 };
 
 const fileInfo = ref(null);
 
 const filteredClassificationResult = computed(() => {
-  if (!classificationResult.value) return null;
+  if (!classificationResult.value || classificationResult.value.length === 0)
+    return null;
 
   if (showBestResultOnly.value) {
-    // Find the best result (highest score)
+    // Якщо масив порожній, повертаємо []
+    if (classificationResult.value.length === 0) return [];
+
+    // Знаходимо найкращий результат
     const bestResult = classificationResult.value.reduce((max, current) =>
       current.score > max.score ? current : max
     );
     return [bestResult];
   } else {
-    // Return all results sorted by score (from highest to lowest)
+    // Повертаємо всі результати, відсортовані за балами
     return [...classificationResult.value].sort((a, b) => b.score - a.score);
   }
 });
@@ -319,7 +306,7 @@ const saveScan = async () => {
       resolution: { width: 1920, height: 1080 },
     };
 
-    console.log("Scan data to save:", scanData); // Додано логування
+    console.log("Scan data to save:", scanData);
 
     await $fetch("/api/saveScan", {
       method: "POST",
@@ -330,31 +317,22 @@ const saveScan = async () => {
     });
 
     isScanSaved.value = true; // Позначити, що сканування збережено
+
+    // Скидаємо повідомлення про успішне збереження через 3 секунди
+    setTimeout(() => {
+      isScanSaved.value = false;
+    }, 3000);
   } catch (error) {
     console.error("Error saving scan:", error);
   }
 };
 
-const isMenuOpen = ref(false);
-
-// Закривання меню при кліку поза ним
-onMounted(() => {
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    if (!target.closest('.menu-container')) {
-      isMenuOpen.value = false;
-    }
-  });
-});
-
 const handleSave = () => {
   saveScan();
-  isMenuOpen.value = false;
 };
 
 const handleReset = () => {
   resetScan();
-  isMenuOpen.value = false;
 };
 
 // Функція для скидання стану сканування
@@ -403,13 +381,15 @@ img {
   height: auto;
   border-radius: 8px;
   margin: 8px auto;
-  max-height: 60vh;
+  max-height: auto;
   object-fit: contain;
 }
 
 /* Additional styles */
-.response-image {
-  max-height: 60vh;
+.responsive-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .progress-bar {
@@ -441,9 +421,5 @@ img {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.menu-container {
-  z-index: 50;
 }
 </style>
