@@ -22,10 +22,3 @@ logs
 .env
 .env.*
 !.env.example
-
-# Add sensitive files
-*.key
-*.pem
-*.crt
-*.env.local
-.vercel/output/functions/__nitro.func/chunks/_/nitro.mjs
