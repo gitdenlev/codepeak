@@ -4694,59 +4694,59 @@ function _expandFromEnv(value) {
 }
 
 const _inlineRuntimeConfig = {
-  "app": {
-    "baseURL": "/",
-    "buildId": "f1cad757-4fe8-4588-a3c6-e02690f1f735",
-    "buildAssetsDir": "/_nuxt/",
-    "cdnURL": ""
+  app: {
+    baseURL: "/",
+    buildId: "f1cad757-4fe8-4588-a3c6-e02690f1f735",
+    buildAssetsDir: "/_nuxt/",
+    cdnURL: "",
   },
-  "nitro": {
-    "envPrefix": "NUXT_",
-    "routeRules": {
+  nitro: {
+    envPrefix: "NUXT_",
+    routeRules: {
       "/__nuxt_error": {
-        "cache": false,
-        "isr": false
+        cache: false,
+        isr: false,
       },
       "/_nuxt/builds/meta/**": {
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
+        headers: {
+          "cache-control": "public, max-age=31536000, immutable",
+        },
       },
       "/_nuxt/builds/**": {
-        "headers": {
-          "cache-control": "public, max-age=1, immutable"
-        }
+        headers: {
+          "cache-control": "public, max-age=1, immutable",
+        },
       },
       "/_nuxt/**": {
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
-      }
-    }
-  },
-  "public": {},
-  "mongodbUri": "mongodb+srv://denys-admin:Mamaira1977@cluster1.urcav7d.mongodb.net/db_nuxt?retryWrites=true&w=majority&appName=Cluster1",
-  "jwtSecret": "4ee90489db025fb92a0809792d52ea8fe838e6068f0e733903d142ea9596079c",
-  "apiKey": "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",
-  "mongoose": {
-    "uri": "mongodb+srv://denys-admin:Mamaira1977@cluster1.urcav7d.mongodb.net/db_nuxt?retryWrites=true&w=majority&appName=Cluster1",
-    "options": {},
-    "devtools": false,
-    "modelsDir": "D:/Denys/Desktop/nuxt-conf/server/server/models"
-  },
-  "icon": {
-    "serverKnownCssClasses": []
-  },
-  "ipx": {
-    "baseURL": "/_ipx",
-    "alias": {},
-    "fs": {
-      "dir": "../../static"
+        headers: {
+          "cache-control": "public, max-age=31536000, immutable",
+        },
+      },
     },
-    "http": {
-      "domains": []
-    }
-  }
+  },
+  public: {},
+  mongodbUri: process.env.MONGO_URI,
+  jwtSecret: process.env.JWT_SECRET,
+  apiKey: process.env.NUXT_API_KEY,
+  mongoose: {
+    uri: "mongodb+srv://denys-admin:Mamaira1977@cluster1.urcav7d.mongodb.net/db_nuxt?retryWrites=true&w=majority&appName=Cluster1",
+    options: {},
+    devtools: false,
+    modelsDir: "D:/Denys/Desktop/nuxt-conf/server/server/models",
+  },
+  icon: {
+    serverKnownCssClasses: [],
+  },
+  ipx: {
+    baseURL: "/_ipx",
+    alias: {},
+    fs: {
+      dir: "../../static",
+    },
+    http: {
+      domains: [],
+    },
+  },
 };
 const envOptions = {
   prefix: "NITRO_",
