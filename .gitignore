@@ -22,3 +22,9 @@ logs
 .env
 .env.*
 !.env.example
+
+# Add sensitive files
+*.key
+*.pem
+*.crt
+*.env.local

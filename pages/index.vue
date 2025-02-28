@@ -6,17 +6,13 @@
       <div class="absolute inset-0 overflow-y-auto p-6">
         <div class="flex flex-col items-center justify-center min-h-full">
           <!-- Блок для завантаження зображення -->
-          <div
-            v-show="!uploadedImage"
-            class="fixed text-center flex flex-col items-center justify-center"
-          >
+          <div v-show="!uploadedImage" class="fixed text-center flex flex-col items-center justify-center">
             <div class="flex gap-2 items-center text-4xl">
               <Icon name="game-icons:mountaintop" />
               <h1>codepeak</h1>
             </div>
             <p class="text-md mt-4">Upload an image to classify it.</p>
-
-            <!-- Контейнер для завантаження зображення -->
+            
             <Transition name="fade" mode="out-in">
               <div
                 v-if="!uploadedImage && !isLoading"
@@ -25,9 +21,7 @@
                 @drop="handleDrop"
                 :class="[
                   'md:w-auto md:p-4 h-40 flex items-center justify-center text-xl mt-6 p-8 border-2 border-dashed rounded-lg text-center transition-all duration-3000 text-white',
-                  isDragging
-                    ? 'border-blue-500 bg-blue-500/10'
-                    : 'border-gray-700 bg-gray-800',
+                  isDragging ? 'border-blue-500 bg-blue-500/10' : 'border-gray-700 bg-gray-800',
                 ]"
               >
                 <input
@@ -37,14 +31,8 @@
                   class="hidden"
                   id="fileInput"
                 />
-                <label
-                  for="fileInput"
-                  class="cursor-pointer text-sm md:text-xl whitespace-nowrap"
-                >
-                  <p
-                    class="drag-n-drop-text"
-                    :class="isDragging ? 'text-black' : 'text-white'"
-                  >
+                <label for="fileInput" class="cursor-pointer text-sm md:text-xl whitespace-nowrap">
+                  <p class="drag-n-drop-text" :class="isDragging ? 'text-black' : 'text-white'">
                     Drag & drop an image or
                     <span class="text-blue-500">click to upload</span>.
                   </p>
@@ -53,16 +41,11 @@
             </Transition>
 
             <!-- Перемикач режиму -->
-            <div
-              v-if="!uploadedImage"
-              class="flex items-center relative left-0 mt-4 gap-2 p-2 xl:mr-0"
-            >
+            <div v-if="!uploadedImage" class="flex items-center relative left-0 mt-4 gap-2 p-2 xl:mr-0">
               <span class="text-xs text-gray-400">Extended Results</span>
               <UToggle
                 v-model="showBestResultOnly"
-                :label="
-                  showBestResultOnly ? 'Show all results' : 'Show best result'
-                "
+                :label="showBestResultOnly ? 'Show all results' : 'Show best result'"
                 color="blue"
                 class="bg-blue-500"
               />
@@ -72,20 +55,14 @@
 
           <!-- Лоадер -->
           <Transition name="fade" mode="out-in">
-            <div
-              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              v-if="isLoading"
-            >
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" v-if="isLoading">
               <Loader />
             </div>
           </Transition>
 
           <!-- Результати класифікації -->
           <Transition name="fade" mode="out-in">
-            <div
-              v-if="classificationResult"
-              class="mx-auto mt-6 w-full md:w-[410px] xl:w-[700px] fade-in relative"
-            >
+            <div v-if="classificationResult" class="mx-auto mt-6 w-full md:w-[410px] xl:w-[700px] fade-in relative">
               <!-- Контейнер з зображенням та кнопками -->
               <div class="max-h-[60vh] overflow-hidden relative">
                 <!-- Завантажене зображення -->
@@ -95,131 +72,31 @@
                     v-if="uploadedImage"
                     :src="uploadedImage"
                     alt="Uploaded image"
-<<<<<<< HEAD
-                    :width="300"
-                    :height="200"
-                    sizes="xs:100vw sm:80vw md:60vw lg:50vw xl:40vw"
-                    class="responsive-img"
-                  />
-
-                  <!-- Кнопки управління (нові, завжди видимі) -->
-                  <div
-                    v-if="classificationResult"
-                    class="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-row items-center gap-2"
-                  >
-                    <!-- Save кнопка (тільки для авторизованих) -->
-                    <button
-                      v-if="user"
-                      @click="handleSave"
-                      class="px-3 py-2 rounded-lg bg-blue-600 opacity-90 hover:bg-blue-700 text-white flex items-center gap-2 transition-all duration-300"
-                    >
-                      <Icon name="icon-park-outline:download-one" size="16" />
-                      <span class="text-sm">Save</span>
-                    </button>
-
-                    <!-- Reset кнопка -->
-                    <button
-                      @click="handleReset"
-                      class="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white flex items-center gap-2 transition-all duration-300"
-                    >
-                      <Icon name="material-symbols:restart-alt" size="16" />
-                      <span class="text-sm">Reset</span>
-                    </button>
-=======
                     class="mb-4 response-image mx-auto rounded-lg"
                   />
-
-                  <!-- Меню кнопка та дропдаун -->
-                  <div
-                    v-if="classificationResult"
-                    class="absolute bottom-6 right-2 flex flex-col items-end"
-                  >
-                    <!-- Кнопка меню -->
-                    <button
-                      @click="isMenuOpen = !isMenuOpen"
-                      class="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all duration-300"
-                    >
-                      <Icon
-                        name="iconamoon:menu-kebab-horizontal-bold"
-                        size="20"
-                        class="text-white"
-                      />
-                    </button>
-
-                    <!-- Дропдаун меню -->
-                    <Transition
-                      enter-active-class="transition duration-200 ease-out"
-                      enter-from-class="transform scale-95 opacity-0"
-                      enter-to-class="transform scale-100 opacity-100"
-                      leave-active-class="transition duration-150 ease-in"
-                      leave-from-class="transform scale-100 opacity-100"
-                      leave-to-class="transform scale-95 opacity-0"
-                    >
-                      <div
-                        v-if="isMenuOpen"
-                        class="mt-2 py-1 w-28 rounded-lg shadow-lg bg-gray-800/90 backdrop-blur-sm"
-                      >
-                        <!-- Save кнопка -->
-                        <button
-                          @click="handleSave"
-                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
-                        >
-                          <Icon
-                            name="icon-park-outline:download-one"
-                            size="16"
-                          />
-                          Save
-                        </button>
-
-                        <!-- Reset кнопка -->
-                        <button
-                          @click="handleReset"
-                          class="w-full px-4 py-2 text-sm text-white hover:bg-gray-700/50 flex items-center gap-2 transition-colors duration-200"
-                        >
-                          <Icon name="material-symbols:restart-alt" size="16" />
-                          Reset
-                        </button>
-                      </div>
-                    </Transition>
->>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
-                  </div>
                 </div>
               </div>
 
               <!-- Результати класифікації -->
-              <ul>
+              <ul class="transition-all duration-300">
                 <li
                   v-for="(item, idx) in filteredClassificationResult"
                   :key="idx"
                   class="mt-2"
-                  v-if="
-                    filteredClassificationResult &&
-                    filteredClassificationResult.length
-                  "
+                  v-if="filteredClassificationResult && filteredClassificationResult.length"
                 >
                   <div class="flex items-center justify-between">
-                    <span
-                      :class="
-                        showBestResultOnly
-                          ? 'text-xl flex justify-center w-full'
-                          : ''
-                      "
-                      >{{
+                    <span :class="showBestResultOnly ? 'text-xl flex justify-center w-full' : ''">
+                      {{
                         item.label
                           .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
+                          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                           .join(" ")
-                      }}</span
-                    >
+                      }}
+                    </span>
                   </div>
                   <!-- Прогрес-бар -->
-                  <div
-                    v-if="!showBestResultOnly"
-                    class="w-full bg-gray-700 rounded-full h-2 mt-1"
-                  >
+                  <div v-if="!showBestResultOnly" class="w-full bg-gray-700 rounded-full h-2 mt-1 transition-all">
                     <div
                       class="bg-blue-500 h-2 rounded-full progress-bar"
                       :style="{ width: `${Math.round(item.score * 100)}%` }"
@@ -229,22 +106,34 @@
               </ul>
 
               <!-- Повідомлення про успішне збереження -->
-              <div class="flex items-center gap-4">
+              <div class="flex items-center justify-center gap-4">
                 <p v-if="isScanSaved" class="mt-4 text-green-500">
                   Scan saved successfully!
                 </p>
+              </div>
+
+              <!-- Кнопки Save і Reset -->
+              <div class="mt-4 flex gap-4 justify-center">
+                <button
+                  v-if="uploadedImage && classificationResult"
+                  @click="handleSave"
+                  class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
+                >
+                  Save
+                </button>
+                <button
+                  @click="handleReset"
+                  class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-300"
+                >
+                  Reset
+                </button>
               </div>
             </div>
           </Transition>
 
           <!-- Повідомлення про можливі помилки моделі -->
-          <p
-            v-if="classificationResult"
-            class="mt-6 text-[9px] md:text-xs text-gray-400 text-center transition-all duration-300 whitespace-normal mb-6"
-            style="white-space: pre-line"
-          >
-            The model can be wrong, especially with low photo quality or unusual
-            objects.
+          <p v-if="classificationResult" class="mt-6 text-[9px] md:text-xs text-gray-400 text-center transition-all duration-300 whitespace-normal mb-6" style="white-space: pre-line">
+            The model can be wrong, especially with low photo quality or unusual objects.
           </p>
         </div>
       </div>
@@ -364,11 +253,7 @@ const saveScan = async () => {
       resolution: { width: 1920, height: 1080 },
     };
 
-<<<<<<< HEAD
-    console.log("Scan data to save:", scanData);
-=======
     console.log("Scan data to save:", scanData); // Додано логування
->>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
 
     await $fetch("/api/saveScan", {
       method: "POST",
@@ -389,37 +274,14 @@ const saveScan = async () => {
   }
 };
 
-<<<<<<< HEAD
 const handleSave = () => {
   saveScan();
-=======
-const isMenuOpen = ref(false);
-
-// Закривання меню при кліку поза ним
-onMounted(() => {
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    if (!target.closest('.menu-container')) {
-      isMenuOpen.value = false;
-    }
-  });
-});
-
-const handleSave = () => {
-  saveScan();
-  isMenuOpen.value = false;
->>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
 };
 
 const handleReset = () => {
   resetScan();
-<<<<<<< HEAD
-=======
-  isMenuOpen.value = false;
->>>>>>> d1b6f7bb1d67110fcb632c26ee4110551e4f1446
 };
 
-// Функція для скидання стану сканування
 const resetScan = () => {
   uploadedImage.value = null;
   classificationResult.value = null;
@@ -427,7 +289,6 @@ const resetScan = () => {
   fileInfo.value = null;
 };
 
-// Обробка перетягування файлів
 function handleDrop(event) {
   event.preventDefault();
   isDragging.value = false;
