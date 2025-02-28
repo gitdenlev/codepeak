@@ -28,3 +28,4 @@ logs
 *.pem
 *.crt
 *.env.local
+.vercel/output/functions/__nitro.func/chunks/_/nitro.mjs
